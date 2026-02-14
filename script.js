@@ -62,6 +62,56 @@ const fallingSymbols = [
   '',    // Valentine's Day
 ];
 
+// Define background gradients for each day to create a unique mood. These
+// gradients transition softly between two colors that evoke the feeling of each
+// occasion.
+const backgrounds = [
+  'linear-gradient(120deg, #ff9a9e 0%, #fecfef 100%)', // Rose Day
+  'linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)', // Propose Day
+  'linear-gradient(120deg, #c471f5 0%, #fa71cd 100%)', // Chocolate Day
+  'linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%)', // Teddy Day
+  'linear-gradient(120deg, #f6d365 0%, #fda085 100%)', // Promise Day
+  'linear-gradient(120deg, #fbc2eb 0%, #a6c1ee 100%)', // Hug Day
+  'linear-gradient(120deg, #fad0c4 0%, #ffd1ff 100%)', // Kiss Day
+  'linear-gradient(120deg, #ff9a9e 0%, #fad0c4 100%)', // Valentine's Day
+];
+
+// Variables to hold typing intervals so they can be cleared when switching steps
+let typingQuestionInterval;
+let typingMessageInterval;
+
+// Typewriter effect: gradually reveal text content of an element
+function typeText(element, text, callback) {
+  // Clear any previous interval on this element
+  if (element === questionEl && typingQuestionInterval) {
+    clearInterval(typingQuestionInterval);
+  }
+  if (element === messageEl && typingMessageInterval) {
+    clearInterval(typingMessageInterval);
+  }
+  element.textContent = '';
+  let i = 0;
+  const interval = setInterval(() => {
+    element.textContent = text.slice(0, i++);
+    if (i > text.length) {
+      clearInterval(interval);
+      if (element === questionEl) {
+        typingQuestionInterval = null;
+      }
+      if (element === messageEl) {
+        typingMessageInterval = null;
+      }
+      if (callback) callback();
+    }
+  }, 50);
+  if (element === questionEl) {
+    typingQuestionInterval = interval;
+  }
+  if (element === messageEl) {
+    typingMessageInterval = interval;
+  }
+}
+
 // Interval ID for spawning falling items
 let fallingInterval;
 
@@ -108,11 +158,26 @@ const overlay = document.getElementById('overlay');
 // Function to render the current step's content
 function showStep(index) {
   const step = steps[index];
+  // Update the body background to the gradient corresponding to this step
+  document.body.style.background = backgrounds[index];
+
+  // Set the title immediately (no typing effect for the header)
   dayTitleEl.textContent = step.title;
-  questionEl.textContent = step.question;
-  messageEl.textContent = step.message;
+
+  // Clear existing question and message text so previous content doesn't linger
+  questionEl.textContent = '';
+  messageEl.textContent = '';
+
+  // Use a typewriter effect for the question and message for added charm
+  // After the question finishes typing, start typing the message with a slight delay
+  typeText(questionEl, step.question, () => {
+    // Once the question is done, wait a bit then type the message
+    setTimeout(() => {
+      typeText(messageEl, step.message);
+    }, 200);
+  });
+
   // Start falling items for this step unless it's the final step
-  // Use the matching symbol from the fallingSymbols array
   if (step.final) {
     // Stop any previous falling items so the celebration can show cleanly
     stopFallingItems();

@@ -34,7 +34,8 @@ body {
 
 /* Primary question text */
 .question {
-  font-size: 1.4rem;
+  /* Slightly larger question for better readability */
+  font-size: 1.6rem;
   font-weight: 600;
   margin-bottom: 0.3rem;
   color: #333;
@@ -42,7 +43,8 @@ body {
 
 /* Supporting message under each question */
 .message {
-  font-size: 1rem;
+  /* Slightly larger supporting message */
+  font-size: 1.2rem;
   margin-bottom: 1.5rem;
   color: #555;
 }
