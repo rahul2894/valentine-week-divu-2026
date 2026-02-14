@@ -1,0 +1,161 @@
+/* Global styling for the Valentine Week site */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  /* Soft gradient background evocative of a sunrise */
+  background: linear-gradient(120deg, #ff9a9e 0%, #fad0c4 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Card container for each day's question */
+.container {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 90%;
+}
+
+/* Day title styling using cursive font for elegance */
+.day-title {
+  font-family: 'Great Vibes', cursive;
+  color: #e14d75;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Primary question text */
+.question {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: #333;
+}
+
+/* Supporting message under each question */
+.message {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  color: #555;
+}
+
+/* Button container */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+button {
+  padding: 12px 28px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: transform 0.3s, background-color 0.3s;
+  outline: none;
+  position: relative;
+}
+
+/* Yes button styling */
+#yes-btn {
+  background-color: #ff7c94;
+  color: #fff;
+}
+
+#yes-btn:hover {
+  background-color: #e14d75;
+  transform: scale(1.05);
+}
+
+/* No button styling */
+#no-btn {
+  background-color: #ffd3e2;
+  color: #e14d75;
+}
+
+/* Overlay for the final message */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+/* Final message card styling */
+.final-message {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.final-message h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 3rem;
+  color: #e14d75;
+  margin-bottom: 0.5rem;
+}
+
+.final-message p {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* Falling heart styling */
+.heart {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background: #e14d75;
+  transform: rotate(-45deg);
+  animation: fall linear;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heart:before,
+.heart:after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #e14d75;
+  border-radius: 50%;
+}
+
+.heart:before {
+  top: -10px;
+  left: 0;
+}
+
+.heart:after {
+  left: 10px;
+  top: 0;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(-45deg);
+    opacity: 0;
+  }
+}
