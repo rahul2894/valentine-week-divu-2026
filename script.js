@@ -49,6 +49,54 @@ const steps = [
 
 let currentStep = 0;
 
+// Define symbols to fall for each day. The final step uses an empty string because
+// celebration effects handle the hearts separately.
+const fallingSymbols = [
+  '🌹', // Rose Day
+  '💍', // Propose Day
+  '🍫', // Chocolate Day
+  '🧸', // Teddy Day
+  '💌', // Promise Day
+  '🤗', // Hug Day
+  '💋', // Kiss Day
+  '',    // Valentine's Day
+];
+
+// Interval ID for spawning falling items
+let fallingInterval;
+
+// Start spawning falling items for the given symbol
+function startFallingItems(symbol) {
+  // Clear any existing interval
+  stopFallingItems();
+  if (!symbol) return;
+  // Create items at regular intervals
+  fallingInterval = setInterval(() => {
+    createFallingItem(symbol);
+  }, 350);
+}
+
+// Stop spawning falling items
+function stopFallingItems() {
+  if (fallingInterval) {
+    clearInterval(fallingInterval);
+    fallingInterval = null;
+  }
+}
+
+// Create a single falling item element and animate its fall
+function createFallingItem(symbol) {
+  const span = document.createElement('span');
+  span.className = 'falling-item';
+  span.textContent = symbol;
+  // Random horizontal position and fall duration for variation
+  span.style.left = Math.random() * 100 + 'vw';
+  span.style.animationDuration = Math.random() * 2 + 3 + 's';
+  document.body.appendChild(span);
+  // Remove the element after it falls
+  setTimeout(() => span.remove(), 5000);
+}
+
 // Grab DOM elements once to avoid repeated lookups
 const dayTitleEl = document.getElementById('day-title');
 const questionEl = document.getElementById('question');
@@ -63,6 +111,14 @@ function showStep(index) {
   dayTitleEl.textContent = step.title;
   questionEl.textContent = step.question;
   messageEl.textContent = step.message;
+  // Start falling items for this step unless it's the final step
+  // Use the matching symbol from the fallingSymbols array
+  if (step.final) {
+    // Stop any previous falling items so the celebration can show cleanly
+    stopFallingItems();
+  } else {
+    startFallingItems(fallingSymbols[index]);
+  }
 }
 
 // Event handler for the Yes button

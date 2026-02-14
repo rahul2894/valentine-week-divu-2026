@@ -153,6 +153,17 @@ button {
   top: 0;
 }
 
+/* Generic falling items styling for various days */
+.falling-item {
+  position: fixed;
+  /* Larger size so emojis are clearly visible */
+  font-size: 2rem;
+  pointer-events: none;
+  animation-name: fall;
+  animation-timing-function: linear;
+  z-index: 0;
+}
+
 @keyframes fall {
   to {
     transform: translateY(100vh) rotate(-45deg);
